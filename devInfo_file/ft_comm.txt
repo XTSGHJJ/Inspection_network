@@ -1,0 +1,7 @@
+set output standard
+get hardware status
+get system status
+get system performance status
+get sys ha status
+show  full-configuration
+get hardware memory

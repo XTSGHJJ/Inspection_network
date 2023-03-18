@@ -1,0 +1,10 @@
+display  version
+display  device
+display  device  manuinfo
+display  environment
+display  power
+display  fan
+display  cpu-usage
+display  memory
+display  current-configuration
+display  logbuffer

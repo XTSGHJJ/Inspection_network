@@ -1,0 +1,8 @@
+terminal length 0
+show version
+show cpu
+show memory
+show  environment
+show  ha sync  state  config 
+show  configuration
+show  logging  event
