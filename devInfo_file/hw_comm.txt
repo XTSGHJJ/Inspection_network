@@ -1,8 +1,11 @@
+screen-length  0 temporary
 display version
 dis health
 display  cpu
 display  memory 
 display  device power
+display power
+display fan
 display  device fan
 display  device temp all
 display  device  manufacture-info
