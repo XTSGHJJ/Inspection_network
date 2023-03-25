@@ -1,0 +1,20 @@
+show ver
+show inv
+show ip int b
+show proc cpu
+show proc mem
+show ip route sum
+show cdp nei
+show  clock
+dir /all
+show ip ospf nei
+show ip route ospf 
+show mac address
+show bootflash:
+show ip prot
+show env
+show env all
+show module
+show power
+show run
+show log
