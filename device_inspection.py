@@ -4,9 +4,10 @@ from time import strftime,time
 from  threading import Thread
 from os import getcwd
 
-success_list=[]
+
 def netmiko_dev_connect(ip,username,passwd,check_comm,dev_type,back_file,en_passwd=''):
     dev = {'device_type':dev_type,'ip':ip,'username':username,'password':passwd,'secret':en_passwd,'session_log': 'debug_test.log'}
+    log_path = getcwd().replace('\\','/')
     try:
         connect = ConnectHandler(**dev)
         if not dev['secret'] == None: #判断是否需要enabale密码
@@ -19,11 +20,13 @@ def netmiko_dev_connect(ip,username,passwd,check_comm,dev_type,back_file,en_pass
             content = connect.send_command(comm,strip_prompt=False,strip_command=False) 
             with open(back_file + dev_name + now_time + '.txt','a',encoding='utf-8') as backup_conf: #以设备名+时间命名的txt输出文件
                 backup_conf.write(content + '\n')
-            success_list.append(dev_name + '-' + str(ip))
+        print(ip+'------巡检完毕！')
+        with open(log_path+'/log_file/success_device'+'.txt','a',encoding='utf-8') as success_file:
+            success_file.write( str(ip) + '--成功执行完毕！' + '\n')
+            
     except Exception as error_message:
         # print(str(error_message))
-        error_path = getcwd().replace('\\','/')
-        with open(error_path+'/log_file/error_dev'+'.txt','a',encoding='utf-8') as error_file:
+        with open(log_path+'/log_file/error_device'+'.txt','a',encoding='utf-8') as error_file:
             error_file.write( str(ip) + '-错误消息:' + str(error_message) + '\n')
             
 def dev_judge(DeviceBrand):
@@ -107,7 +110,7 @@ def main():
         
     end_time = time()
     total_time = end_time - start_time
-    print(total_time) 
+    print('共用时:'+ "%.2f" %total_time + '秒') 
 
 if __name__ == '__main__':
     main()
