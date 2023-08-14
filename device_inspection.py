@@ -3,6 +3,7 @@ from netmiko import ConnectHandler
 from time import strftime,time
 from  threading import Thread
 from os import getcwd
+from re import search
 
 
 def netmiko_dev_connect(ip,username,passwd,check_comm,dev_type,back_file,en_passwd=''):
@@ -12,7 +13,12 @@ def netmiko_dev_connect(ip,username,passwd,check_comm,dev_type,back_file,en_pass
         connect = ConnectHandler(**dev)
         if not dev['secret'] == None: #判断是否需要enabale密码
             connect.enable()
-        dev_name = connect.find_prompt().strip('<>') #匹配主机名
+        try:
+            name = connect.send_command('dis cu | in sysname')
+            dev_name_test = search(r'\s+sysname\s+(.*)',str(name))
+            dev_name = dev_name_test.group(1)
+        except:
+            dev_name = connect.find_prompt().strip('<>') #匹配主机名
         now_time = strftime('-%Y-%m-%d-%H-%M-%S') #记录时间
         for comm in check_comm: #发送命令，保存输出
             #strip_prompt用于在输出的文本中会显示设备名
@@ -114,3 +120,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    input("输入任意字符结束!!")
